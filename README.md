@@ -15,7 +15,7 @@ To get started with the projects in this repository, make sure you have Android 
 
 1. Clone this repository to your local machine using:
    ```bash
-   git clone https://github.com/your-username/android-kotlin.git
+   git clone https://github.com/lakshaykamat/android-dev-kotlin.git
    ```
 
 2. Open the project using Android Studio.
