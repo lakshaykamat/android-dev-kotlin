@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DiscordProjectSettings">
+    <option name="show" value="PROJECT" />
+    <option name="nameOverrideEnabled" value="true" />
+    <option name="nameOverrideText" value="somethingYouDontKnow" />
+    <option name="description" value="Something i don't know" />
+  </component>
+</project>
