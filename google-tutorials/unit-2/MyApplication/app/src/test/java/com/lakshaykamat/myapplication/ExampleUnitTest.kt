@@ -1,4 +1,4 @@
-package com.lakshaykamat.tipCalculator
+package com.lakshaykamat.myapplication
 
 import org.junit.Test
 
