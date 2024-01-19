@@ -3,14 +3,25 @@ fun main() {
     var moves: Int = 0
     val TOTAL_MOVES: Int = 4
 
-    println("Guess the number between 1 and 100.")
-
     do {
-        val userValue = readUserInput()
+        var userValue:Int? = null
+        while (userValue === null){
+            try {
+                println("Guess the number between 1 and 100.")
+                userValue = readln().toInt()
+            }catch (e:Exception){
+                println("Enter number between 1-100 :/")
+            }
+        }
+
         moves++
         when {
-            randomNum > userValue -> println("Guess a higher number")
-            randomNum < userValue -> println("Guess a lower number")
+            randomNum > userValue -> {
+                println("Guess a higher number")
+            }
+            randomNum < userValue -> {
+                println("Guess a lower number")
+            }
             else -> {
                 println("You guessed right!!")
                 break
@@ -20,15 +31,4 @@ fun main() {
 
     println("The number is: $randomNum")
     println("Total Moves taken: $moves")
-}
-
-fun readUserInput(): Int {
-    var userValue: Int?
-    do {
-        println("Enter a number between 1-100: ")
-        val userInput = readlnOrNull()
-        userValue = userInput?.toIntOrNull()
-    } while (userValue == null)
-
-    return userValue
 }
