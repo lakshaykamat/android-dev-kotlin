@@ -1,36 +1,29 @@
 package quiz
 
 fun main() {
-    QuizList.quizzes.forEach {
-        Quiz.displayQuestion(it)
-        print("Answer: ")
-        val ansChoice: Char = readInput() ?: return
-        val userOption: OptionsModel = userChoice(ansChoice, it) ?: return
-        when (Quiz.isCorrectAnswer(question = it, userAnswer = userOption)) {
-            true -> User.score += 5
-            false -> {}
+    val name: String = readUsernameInput()
+    User.setUserName(name)
+
+    QuizList.quizzes.forEach { quiz ->
+
+        //Display question and options
+        Quiz.displayQuestion(quiz)
+
+        //Taking user input with some allowed chars
+        val ansChoice: Char = readOptionInput()
+
+        //Deciding option based on char input
+        val userOption: OptionsModel = Quiz.selectedOption(ansChoice, quiz)
+
+
+        val isRightAnswer: Boolean = Quiz.isCorrectAnswer(question = quiz, userAnswer = userOption)
+
+
+        when (isRightAnswer) {
+            true -> User.hasRightAnswer()
+            false -> User.hasWrongAnswer()
         }
     }
-    println("Final Score:${User.score}")
-}
-
-
-fun readInput(): Char? {
-    val input = readlnOrNull()
-    return if (!input.isNullOrEmpty() && input.length == 1) {
-        input[0]
-    } else {
-        null
-    }
-}
-
-fun userChoice(ans: Char, quiz: QuizModel): OptionsModel? {
-    val userOption: OptionsModel? = when (ans) {
-        'a' -> quiz.options[0]
-        'b' -> quiz.options[1]
-        'c' -> quiz.options[2]
-        'd' -> quiz.options[3]
-        else -> null
-    }
-    return userOption
+    User.printScore()
+    Quiz.addResultToHistory(User)
 }
