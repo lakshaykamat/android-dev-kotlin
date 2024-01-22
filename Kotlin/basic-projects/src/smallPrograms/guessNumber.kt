@@ -1,7 +1,9 @@
+package smallPrograms
+
 fun main() {
     val randomNum: Int = (1..100).random()
-    var moves: Int = 0
-    val TOTAL_MOVES: Int = 4
+    var moves = 0
+    val TOTAL_MOVES = 4
 
     do {
         var userValue:Int? = null
