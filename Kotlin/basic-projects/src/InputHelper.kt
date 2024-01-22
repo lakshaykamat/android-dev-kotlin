@@ -42,16 +42,19 @@ fun readPasswordLength(): Int {
     }
 }
 
-fun readInt(title:String="Enter number: "): Int {
+fun readNumber(title: String = "Enter number: "): Number {
     var input: String?
     while (true) {
         print(title)
         input = readlnOrNull()
         if (!input.isNullOrEmpty()) {
-            return input.toIntOrNull() ?: continue
+            return  input.toIntOrNull() ?:input.toDoubleOrNull() ?: continue
         }
+        println("Invalid input. Please enter a valid number.")
     }
 }
+
+
 fun readString(title:String):String{
     var input:String?
     while(true){

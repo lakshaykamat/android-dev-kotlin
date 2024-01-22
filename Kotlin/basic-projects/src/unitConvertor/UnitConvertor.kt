@@ -1,50 +1,52 @@
 package unitConvertor
 
-import readInt
+import appendToFile
+import getTime
+import readNumber
 
-enum class UnitEnum{
-    Time,
-    Height
+enum class UnitEnum {
+    Time, Height
 }
 
 object Unit {
-    val unitOptions = mapOf<Int,UnitEnum>(
-        1 to UnitEnum.Time,
-        2 to UnitEnum.Height
-    )
-    private fun showResult(value: Int, firstParameter: TimeEnum, ans: Double, secondParameter: TimeEnum) {
-        val msg = "$value $firstParameter = $ans $secondParameter"
-        println(msg)
+    val unitOptions = mapOf(1 to UnitEnum.Time, 2 to UnitEnum.Height)
+
+    private fun <T : Enum<T>> selectUnit(
+        unitMap: Map<Int, T>,
+        prompt: String
+    ): T = readNumber(prompt).let { unitMap[it] ?: selectUnit(unitMap, prompt) }
+
+    private fun <T : Enum<T>> performConversion(
+        unit1: T,
+        unit2: T,
+        conversionFunction: (Double, T) -> Double
+    ) {
+        val value = readNumber("Enter $unit1: ")
+        val ans = conversionFunction(value.toDouble(), unit2)
+        val content = "$value $unit1 = $ans $unit2"
+        val fileContent = "\n"+getTime() +": "+ content
+        appendToFile(fileContent,"unit-convertor-history.txt")
+        println(content)
     }
 
     fun handleTimeConversion() {
-        var timeUnit1: TimeEnum? = null
-        var timeUnit2: TimeEnum? = null
 
-        // Select the initial and target time units
-        while (timeUnit1 == null || timeUnit2 == null || timeUnit1 == timeUnit2) {
-            println("Time converter CLI")
-            Time.timeOptions.forEach { (key, value) ->
-                println("$key. $value")
-            }
-            val firstParameter = readInt("Enter the first unit you want to convert: ")
-            timeUnit1 = Time.timeOptions[firstParameter]
-
-            val secondParameter = readInt("$timeUnit1 to _____ : ")
-            timeUnit2 = Time.timeOptions[secondParameter]
+        println("Time convertor CLI")
+        Time.timeOptions.forEach { (key, value) ->
+            println("$key. $value")
         }
+        val fromUnit = selectUnit(Time.timeOptions, "Enter the first unit you want to convert: ")
+        val toUnit = selectUnit(Time.timeOptions, "$fromUnit to _____ : ")
+        performConversion(fromUnit, toUnit){ value, targetUnit -> Time.convertTime(value, fromUnit, targetUnit) }
+    }
 
-        // Perform the conversion based on the selected time units
-        val value = readInt("Enter $timeUnit1: ")
-        val ans = when (timeUnit1) {
-            TimeEnum.Millisecond -> Time.convertMilliseconds(value.toDouble(), timeUnit2)
-            TimeEnum.Seconds -> Time.convertSeconds(value.toDouble(), timeUnit2)
-            TimeEnum.Minutes -> Time.convertMinutes(value.toDouble(), timeUnit2)
-            TimeEnum.Hours -> Time.convertHours(value.toDouble(), timeUnit2)
-            TimeEnum.Days -> Time.convertDays(value.toDouble(), timeUnit2)
-            TimeEnum.Weeks -> Time.convertWeeks(value.toDouble(), timeUnit2)
+    fun heightConversion() {
+        println("Height convertor CLI")
+        Height.heightConversionMap.forEach { (key, value) ->
+            println("$key. $value")
         }
-
-        showResult(value, timeUnit1, ans, timeUnit2)
+        val fromUnit = selectUnit(Height.heightConversionMap, "Enter the first unit you want to convert: ")
+        val toUnit = selectUnit(Height.heightConversionMap, "$fromUnit to _____ : ")
+        performConversion(fromUnit, toUnit) { value, targetUnit -> Height.convertHeight(value, fromUnit, targetUnit) }
     }
 }

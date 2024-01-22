@@ -1,212 +1,94 @@
 package unitConvertor
 
-enum class TimeEnum {
-    Millisecond,
-    Seconds,
-    Minutes,
-    Hours,
-    Days,
-    Weeks
+enum class TimeUnit {
+    Millisecond, Seconds, Minutes, Hours, Days, Weeks
 }
 
 object Time {
     val timeOptions = mapOf(
-        1 to TimeEnum.Millisecond,
-        2 to TimeEnum.Seconds,
-        3 to TimeEnum.Minutes,
-        4 to TimeEnum.Hours,
-        5 to TimeEnum.Days,
-        6 to TimeEnum.Weeks
+        1 to TimeUnit.Millisecond,
+        2 to TimeUnit.Seconds,
+        3 to TimeUnit.Minutes,
+        4 to TimeUnit.Hours,
+        5 to TimeUnit.Days,
+        6 to TimeUnit.Weeks
     )
 
-    fun convertMilliseconds(value: Double, targetUnit: TimeEnum): Double {
-        return when (targetUnit) {
-            TimeEnum.Seconds -> millisecondsToSeconds(value)
-            TimeEnum.Minutes -> millisecondsToMinutes(value)
-            TimeEnum.Hours -> millisecondsToHours(value)
-            TimeEnum.Days -> millisecondsToDays(value)
-            TimeEnum.Weeks -> millisecondsToWeeks(value)
-            TimeEnum.Millisecond -> value
+    fun <T : Number> convertTime(value: T, fromUnit: TimeUnit, toUnit: TimeUnit): Double {
+        val doubleValue = value.toDouble()
+        return when (fromUnit) {
+            TimeUnit.Millisecond -> convertMilliseconds(doubleValue, toUnit)
+            TimeUnit.Seconds -> convertSeconds(doubleValue, toUnit)
+            TimeUnit.Minutes -> convertMinutes(doubleValue, toUnit)
+            TimeUnit.Hours -> convertHours(doubleValue, toUnit)
+            TimeUnit.Days -> convertDays(doubleValue, toUnit)
+            TimeUnit.Weeks -> convertWeeks(doubleValue, toUnit)
         }
     }
 
-    fun convertSeconds(value: Double, targetUnit: TimeEnum): Double {
+    private fun <T:Number>convertMilliseconds(milliseconds: T, targetUnit: TimeUnit): Double {
         return when (targetUnit) {
-            TimeEnum.Millisecond -> secondsToMilliseconds(value)
-            TimeEnum.Minutes -> secondsToMinutes(value)
-            TimeEnum.Hours -> secondsToHours(value)
-            TimeEnum.Days -> secondsToDays(value)
-            TimeEnum.Weeks -> secondsToWeeks(value)
-            TimeEnum.Seconds -> value
+            TimeUnit.Seconds -> milliseconds.toDouble() / 1000.0
+            TimeUnit.Minutes -> milliseconds.toDouble()  / (60 * 1000.0)
+            TimeUnit.Hours -> milliseconds.toDouble()  / (60 * 60 * 1000.0)
+            TimeUnit.Days -> milliseconds.toDouble()  / (24 * 60 * 60 * 1000.0)
+            TimeUnit.Weeks -> milliseconds.toDouble()  / (7 * 24 * 60 * 60 * 1000.0)
+            TimeUnit.Millisecond -> milliseconds.toDouble()
         }
     }
 
-    fun convertMinutes(value: Double, targetUnit: TimeEnum): Double {
+    private fun <T:Number> convertSeconds(seconds: T, targetUnit: TimeUnit): Double {
         return when (targetUnit) {
-            TimeEnum.Millisecond -> minutesToMilliseconds(value)
-            TimeEnum.Seconds -> minutesToSeconds(value)
-            TimeEnum.Hours -> minutesToHours(value)
-            TimeEnum.Days -> minutesToDays(value)
-            TimeEnum.Weeks -> minutesToWeeks(value)
-            TimeEnum.Minutes -> value
+            TimeUnit.Millisecond -> seconds.toDouble() * 1000.0
+            TimeUnit.Minutes -> seconds.toDouble() / 60.0
+            TimeUnit.Hours -> seconds.toDouble() / 3600.0
+            TimeUnit.Days -> seconds.toDouble() / (24 * 3600.0)
+            TimeUnit.Weeks -> seconds.toDouble() / (7 * 24 * 3600.0)
+            TimeUnit.Seconds -> seconds.toDouble()
         }
     }
 
-    fun convertHours(value: Double, targetUnit: TimeEnum): Double {
+    private fun <T:Number>convertMinutes(minutes: T, targetUnit: TimeUnit): Double {
         return when (targetUnit) {
-            TimeEnum.Millisecond -> hoursToMilliseconds(value)
-            TimeEnum.Seconds -> hoursToSeconds(value)
-            TimeEnum.Minutes -> hoursToMinutes(value)
-            TimeEnum.Days -> hoursToDays(value)
-            TimeEnum.Weeks -> hoursToWeeks(value)
-            TimeEnum.Hours -> value
+            TimeUnit.Millisecond -> minutes.toDouble() * 60 * 1000.0
+            TimeUnit.Seconds -> minutes.toDouble() * 60.0
+            TimeUnit.Hours -> minutes.toDouble() / 60.0
+            TimeUnit.Days -> minutes.toDouble() / (24 * 60.0)
+            TimeUnit.Weeks -> minutes.toDouble() / (7 * 24 * 60.0)
+            TimeUnit.Minutes -> minutes.toDouble()
         }
     }
 
-    fun convertDays(value: Double, targetUnit: TimeEnum): Double {
+    private fun <T:Number>convertHours(hours: T, targetUnit: TimeUnit): Double {
         return when (targetUnit) {
-            TimeEnum.Millisecond -> daysToMilliseconds(value)
-            TimeEnum.Seconds -> daysToSeconds(value)
-            TimeEnum.Minutes -> daysToMinutes(value)
-            TimeEnum.Hours -> daysToHours(value)
-            TimeEnum.Weeks -> daysToWeeks(value)
-            TimeEnum.Days -> value
+            TimeUnit.Millisecond -> hours.toDouble() * 60 * 60 * 1000.0
+            TimeUnit.Seconds -> hours.toDouble() * 3600.0
+            TimeUnit.Minutes -> hours.toDouble() * 60.0
+            TimeUnit.Days -> hours.toDouble() / 24.0
+            TimeUnit.Weeks -> hours.toDouble() / (7 * 24.0)
+            TimeUnit.Hours -> hours.toDouble()
         }
     }
 
-    fun convertWeeks(value: Double, targetUnit: TimeEnum): Double {
+    private fun <T:Number>convertDays(days: T, targetUnit: TimeUnit): Double {
         return when (targetUnit) {
-            TimeEnum.Millisecond -> weeksToMilliseconds(value)
-            TimeEnum.Seconds -> weeksToSeconds(value)
-            TimeEnum.Minutes -> weeksToMinutes(value)
-            TimeEnum.Hours -> weeksToHours(value)
-            TimeEnum.Days -> weeksToDays(value)
-            TimeEnum.Weeks -> value
+            TimeUnit.Millisecond -> days.toDouble() * 24 * 60 * 60 * 1000.0
+            TimeUnit.Seconds -> days.toDouble() * 24 * 3600.0
+            TimeUnit.Minutes -> days.toDouble() * 24 * 60.0
+            TimeUnit.Hours -> days.toDouble() * 24.0
+            TimeUnit.Weeks -> days.toDouble() / 7.0
+            TimeUnit.Days -> days.toDouble()
         }
     }
 
-    private fun millisecondsToSeconds(milliseconds: Double): Double {
-        return milliseconds / 1000.0
-    }
-
-    private fun millisecondsToMinutes(milliseconds: Double): Double {
-        val minutesInMillis = 60 * 1000.0 // 1 minute = 60 seconds * 1000 milliseconds
-        return milliseconds / minutesInMillis
-    }
-
-    private fun millisecondsToHours(milliseconds: Double): Double {
-        return milliseconds / (60 * 60 * 1000.0)
-    }
-
-    private fun millisecondsToDays(milliseconds: Double): Double {
-        return milliseconds / (24 * 60 * 60 * 1000.0)
-    }
-
-    private fun millisecondsToWeeks(milliseconds: Double): Double {
-        return milliseconds / (7 * 24 * 60 * 60 * 1000.0)
-    }
-
-    private fun secondsToMilliseconds(seconds: Double): Double {
-        return seconds * 1000.0
-    }
-
-    private fun secondsToMinutes(seconds: Double): Double {
-        return seconds / 60.0
-    }
-
-    private fun secondsToHours(seconds: Double): Double {
-        return seconds / 3600.0
-    }
-
-    private fun secondsToDays(seconds: Double): Double {
-        return seconds / (3600.0 * 24)
-    }
-
-    private fun secondsToWeeks(seconds: Double): Double {
-        return seconds / (3600.0 * 24 * 7)
-    }
-
-    private fun minutesToMilliseconds(minutes: Double): Double {
-        val minutesInMillis = minutes * 60 * 1000.0 // 1 minute = 60 seconds * 1000 milliseconds
-        return minutesInMillis
-    }
-
-    private fun minutesToSeconds(minutes: Double): Double {
-        return minutes * 60.0
-    }
-
-    private fun minutesToHours(minutes: Double): Double {
-        return minutes / 60.0
-    }
-
-    private fun minutesToDays(minutes: Double): Double {
-        return minutes / (24 * 60)
-    }
-
-    private fun minutesToWeeks(minutes: Double): Double {
-        return minutes / (7 * 24 * 60)
-    }
-
-    private fun hoursToMilliseconds(hours: Double): Double {
-        val hoursInMillis = hours * 60 * 60 * 1000.0 // 1 hour = 60 minutes * 60 seconds * 1000 milliseconds
-        return hoursInMillis
-    }
-
-    private fun hoursToSeconds(hours: Double): Double {
-        return hours * 3600.0
-    }
-
-    private fun hoursToMinutes(hours: Double): Double {
-        return hours * 60.0
-    }
-
-    private fun hoursToDays(hours: Double): Double {
-        return hours / 24.0
-    }
-
-    private fun hoursToWeeks(hours: Double): Double {
-        return hours / (7 * 24)
-    }
-
-    private fun daysToMilliseconds(days: Double): Double {
-        val daysInMillis = days * 24 * 60 * 60 * 1000.0 // 1 day = 24 hours * 60 minutes * 60 seconds * 1000 milliseconds
-        return daysInMillis
-    }
-
-    private fun daysToSeconds(days: Double): Double {
-        return days * 24 * 3600.0
-    }
-
-    private fun daysToMinutes(days: Double): Double {
-        return days * 24 * 60.0
-    }
-
-    private fun daysToHours(days: Double): Double {
-        return days * 24.0
-    }
-
-    private fun daysToWeeks(days: Double): Double {
-        return days / 7.0
-    }
-
-    private fun weeksToMilliseconds(weeks: Double): Double {
-        val weeksInMillis = weeks * 7 * 24 * 60 * 60 * 1000.0 // 1 week = 7 days * 24 hours * 60 minutes * 60 seconds * 1000 milliseconds
-        return weeksInMillis
-    }
-
-    private fun weeksToSeconds(weeks: Double): Double {
-        return weeks * 7 * 24 * 3600.0
-    }
-
-    private fun weeksToMinutes(weeks: Double): Double {
-        return weeks * 7 * 24 * 60.0
-    }
-
-    private fun weeksToHours(weeks: Double): Double {
-        return weeks * 7 * 24.0
-    }
-
-    private fun weeksToDays(weeks: Double): Double {
-        return weeks * 7.0
+    private fun <T:Number>convertWeeks(weeks: T, targetUnit: TimeUnit): Double {
+        return when (targetUnit) {
+            TimeUnit.Millisecond -> weeks.toDouble() * 7 * 24 * 60 * 60 * 1000.0
+            TimeUnit.Seconds -> weeks.toDouble()  * 7 * 24 * 3600.0
+            TimeUnit.Minutes -> weeks.toDouble()  * 7 * 24 * 60.0
+            TimeUnit.Hours -> weeks.toDouble()  * 7 * 24.0
+            TimeUnit.Days -> weeks.toDouble()  * 7.0
+            TimeUnit.Weeks -> weeks.toDouble()
+        }
     }
 }

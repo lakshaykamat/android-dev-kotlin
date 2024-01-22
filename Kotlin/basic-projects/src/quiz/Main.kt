@@ -1,5 +1,8 @@
 package quiz
 
+import readOptionInput
+import readUsernameInput
+
 fun main() {
     val name: String = readUsernameInput()
     User.setUserName(name)

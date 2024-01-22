@@ -1,6 +1,6 @@
 package unitConvertor
 
-import readInt
+import readNumber
 
 fun main() {
     var selectedUnit: UnitEnum? = null
@@ -8,17 +8,15 @@ fun main() {
     // Select the main unit to convert
     while (selectedUnit == null) {
         println("Unit convertor CLI")
-        Unit.unitOptions.map { (key, value) ->
+        Unit.unitOptions.forEach { (key, value) ->
             println("$key. $value")
         }
-        val input =
-            readInt("Enter the number corresponding to the unit you want to convert: ") //ask user what to convert
+        val input = readNumber("Enter the number corresponding to the unit you want to convert: ")
         selectedUnit = Unit.unitOptions[input]
     }
 
     when (selectedUnit) {
         UnitEnum.Time -> Unit.handleTimeConversion()
-        UnitEnum.Height -> TODO()
+        UnitEnum.Height -> Unit.heightConversion()
     }
 }
-
