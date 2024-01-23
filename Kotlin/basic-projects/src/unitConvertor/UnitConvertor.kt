@@ -1,6 +1,4 @@
 package unitConvertor
-
-import appendToFile
 import getTime
 import readNumber
 
@@ -25,7 +23,7 @@ object Unit {
         val ans = conversionFunction(value.toDouble(), unit2)
         val content = "$value $unit1 = $ans $unit2"
         val fileContent = "\n"+getTime() +": "+ content
-        appendToFile(fileContent,"unit-convertor-history.txt")
+        File.appendToFile(fileContent,"unit-convertor-history.txt")
         println(content)
     }
 
