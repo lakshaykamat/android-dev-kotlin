@@ -23,7 +23,7 @@ fun readUsernameInput(): String {
 fun readYesNoInput(title:String): Boolean {
     var input: String?
     while (true) {
-        print("Do you want $title (y/n): ")
+        print(title)
         input = readlnOrNull()
         if (!input.isNullOrEmpty() && input.length == 1) {
             return input[0].lowercaseChar() == 'y'
