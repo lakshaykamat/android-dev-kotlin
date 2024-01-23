@@ -5,7 +5,10 @@ import java.io.File
 
 data class ContactModel(val id: Int, val name: String, val number: String, val bio: String)
 
-class Contact(contactModel: ContactModel) {
+class Contact(private val contactModel: ContactModel) {
+    val getName: String
+        get() = contactModel.name
+
     init {
         val fileContent = """
             Id: ${contactModel.id}
