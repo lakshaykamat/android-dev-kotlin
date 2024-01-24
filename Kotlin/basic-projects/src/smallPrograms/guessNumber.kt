@@ -1,5 +1,4 @@
 package smallPrograms
-
 fun main() {
     val randomNum: Int = (1..100).random()
     var moves = 0
