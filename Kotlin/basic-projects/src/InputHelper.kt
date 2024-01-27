@@ -1,4 +1,5 @@
 import quiz.UserInput
+import java.io.InputStream
 
 
 fun readOptionInput(): Char {
@@ -20,11 +21,12 @@ fun readUsernameInput(): String {
     }
     return input
 }
-fun readYesNoInput(title:String): Boolean {
+
+fun readYesNoInput(title: String, inputStream: InputStream = System.`in`): Boolean {
     var input: String?
     while (true) {
         print(title)
-        input = readlnOrNull()
+        input = inputStream.bufferedReader().readLine()
         if (!input.isNullOrEmpty() && input.length == 1) {
             return input[0].lowercaseChar() == 'y'
         }
@@ -42,26 +44,14 @@ fun readPasswordLength(): Int {
     }
 }
 
-fun readNumber(title: String = "Enter number: "): Number {
+fun readNumber(title: String = "Enter number: ", inputStream: InputStream = System.`in`): Number {
     var input: String?
     while (true) {
         print(title)
-        input = readlnOrNull()
+        input = inputStream.bufferedReader().readLine()
         if (!input.isNullOrEmpty()) {
-            return  input.toIntOrNull() ?:input.toDoubleOrNull() ?: continue
+            return input.toIntOrNull() ?: input.toDoubleOrNull() ?: continue
         }
         println("Invalid input. Please enter a valid number.")
-    }
-}
-
-
-fun readString(title:String):String{
-    var input:String?
-    while(true){
-        print("Enter $title: ")
-        input = readlnOrNull()
-        if(!input.isNullOrEmpty()){
-            return input
-        }
     }
 }
