@@ -54,4 +54,3 @@ There are four visibility modifiers:
         internal val internalProperty: Double = 3.14
     }
     ```
-

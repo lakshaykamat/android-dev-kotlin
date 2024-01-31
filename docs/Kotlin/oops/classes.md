@@ -21,7 +21,7 @@
     }
     ```
 
-3. **Constructor:**
+3. [[constructor|Constructor:]]
    - Define a primary constructor directly in the class header. It can have parameters.
 
     ```kotlin
