@@ -1,0 +1,4 @@
+com.example.cupcake.test.app-androidTest-0 C:\Users\laksh\Documents\android\google-tutorials\unit-4\CupcakeApp\app\build\generated\res\resValues\androidTest\debug
+com.example.cupcake.test.app-mergeDebugAndroidTestResources-1 C:\Users\laksh\Documents\android\google-tutorials\unit-4\CupcakeApp\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\merged.dir
+com.example.cupcake.test.app-mergeDebugAndroidTestResources-2 C:\Users\laksh\Documents\android\google-tutorials\unit-4\CupcakeApp\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\stripped.dir
+com.example.cupcake.test.app-merged_res-3 C:\Users\laksh\Documents\android\google-tutorials\unit-4\CupcakeApp\app\build\intermediates\merged_res\debugAndroidTest
